@@ -18,43 +18,54 @@ const Search = () => {
 
   useEffect(() => {
     fetchQuery();
-    setQueryString("");
+    setQueryString("")
   }, []);
 
   return (
     <div>
-      <center>
-        <div className="searchBox">
-          <input
-            type="text"
-            placeholder="Search"
-            onChange={(event) => {
-              setQueryString(event.target.value);
-              fetchQuery();
-              console.log(queryString);
-            }}
-          ></input>
-        </div>
-      </center>
-      {search
-        // .filter((result) => {
-        //   if (queryString === "") {
-        //     return result;
-        //   } else if (result.title.toLowerCase().includes(queryString.toLowerCase())) {
-        //     return result;
-        //   }
-        //   return null;
-        // })
-        .map((result, index) => {
-          return (
-            <div>
-              <p>{result.title}</p>
-              <p>{result.author}</p>
-              <p>{result.url}</p>
-              <hr></hr>
-            </div>
-          );
-        })}
+      <form>
+        <center>
+          <div className="searchBox">
+            <input
+              type="text"
+              placeholder="Search"
+              onChange={(event) => {
+                setQueryString(event.target.value);
+                // console.log(queryString);
+              }}
+            />
+            <button
+              onClick={(event) => {
+                event.preventDefault();
+
+                fetchQuery();
+                console.log(queryString);
+              }}
+            >
+              Enter
+            </button>
+          </div>
+        </center>
+        {search
+          // .filter((result) => {
+          //   if (queryString === "") {
+          //     return result;
+          //   } else if (result.title.toLowerCase().includes(queryString.toLowerCase())) {
+          //     return result;
+          //   }
+          //   return null;
+          // })
+          .map((result, index) => {
+            return (
+              <div>
+                <p>{result.title}</p>
+                <p>{result.author}</p>
+                <p>{result.url}</p>
+                <hr></hr>
+              </div>
+            );
+          })}
+      </form>
     </div>
   );
 };
