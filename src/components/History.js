@@ -1,9 +1,9 @@
+import { useState, useEffect } from "react";
 
 const History = () => {
-  
-    return (
-        <div>History</div>
-    )
+  const [history, setHistory] = useState("");
+
+  return <div>History</div>;
 };
 
 export default History;
