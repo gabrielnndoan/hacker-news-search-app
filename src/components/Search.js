@@ -1,25 +1,49 @@
 import { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import { addQuery, getQuery, removeQuery } from "../auth";
 
 const Search = () => {
   const [queryString, setQueryString] = useState("");
   const [search, setSearch] = useState([]);
+  let history = useHistory();
+  const redirect = () => {
+    history.push(`/search?query=${getQuery()}`);
+  };
 
   const fetchQuery = () => {
-    fetch(`http://hn.algolia.com/api/v1/search?query=${queryString}`)
-      .then((response) => response.json())
-      .then((results) => {
-        console.log(results);
-        setSearch(results.hits);
-        console.log(search);
-        // setQueryString("");
-      })
-      .catch(console.error);
+    if (getQuery()) {
+      fetch(`http://hn.algolia.com/api/v1/search?query=${getQuery()}`)
+        .then((response) => response.json())
+        .then((results) => {
+          setSearch(results.hits);
+          redirect();
+          removeQuery();
+        })
+        .catch(console.error);
+    } else {
+      fetch(`http://hn.algolia.com/api/v1/search?query=${queryString}`)
+        .then((response) => response.json())
+        .then((results) => {
+          setSearch(results.hits);
+          redirect();
+        })
+        .catch(console.error);
+    }
   };
 
   useEffect(() => {
     fetchQuery();
-    setQueryString("")
+    setQueryString("");
   }, []);
+
+  function addHistory(queryString) {
+    let history = [];
+    if (localStorage.getItem("history")) {
+      history = JSON.parse(localStorage.getItem("history"));
+    }
+    history.push({ history: queryString });
+    localStorage.setItem("history", JSON.stringify(history));
+  }
 
   return (
     <div>
@@ -31,40 +55,32 @@ const Search = () => {
               placeholder="Search"
               onChange={(event) => {
                 setQueryString(event.target.value);
-                // console.log(queryString);
               }}
             />
             <button
               onClick={(event) => {
                 event.preventDefault();
-
-                fetchQuery();
-                console.log(queryString);
+                addHistory(queryString);
+                addQuery(queryString);
+                fetchQuery()
               }}
             >
               Enter
             </button>
           </div>
         </center>
-        {search
-          // .filter((result) => {
-          //   if (queryString === "") {
-          //     return result;
-          //   } else if (result.title.toLowerCase().includes(queryString.toLowerCase())) {
-          //     return result;
-          //   }
-          //   return null;
-          // })
-          .map((result, index) => {
-            return (
-              <div>
-                <p>{result.title}</p>
-                <p>{result.author}</p>
-                <p>{result.url}</p>
-                <hr></hr>
-              </div>
-            );
-          })}
+        {search.map((result) => {
+          return (
+            <div>
+              <p>{result.title}</p>
+              <p>{result.author}</p>
+              <p>
+                <a href={result.url}>{result.url}</a>
+              </p>
+              <hr></hr>
+            </div>
+          );
+        })}
       </form>
     </div>
   );
