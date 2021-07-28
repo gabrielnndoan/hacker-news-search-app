@@ -1,0 +1,27 @@
+.navBar {
+  background-color: #708266;
+  overflow: hidden;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+.navBar a {
+  float: right;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  
+}
+
+.navBar a:hover {
+  background-color: #ddd;
+  color: black;
+  font-weight: bolder;
+}
+
+.navBar a.active {
+  background-color: #69594e;
+  color: white;
+  font-weight: bold;
+}

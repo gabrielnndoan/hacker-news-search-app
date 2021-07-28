@@ -1,0 +1,19 @@
+.homeHeading {
+  text-align: center;
+}
+
+.searchBoxHome {
+  margin: 15px;
+  text-align: center;
+}
+
+.searchBoxInputHome {
+  height: 30px;
+  width: 25%;
+  font-size: 10pt;
+}
+
+.searchBoxButtonHome {
+  height: 35px;
+  width: 100px;
+}

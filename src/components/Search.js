@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { addQuery, getQuery, removeQuery } from "../auth";
+import { addQuery, getQuery, removeQuery } from "../functions";
+import "./Search.css";
 
-const Search = () => {
-  const [queryString, setQueryString] = useState("");
+const Search = ({ queryString, setQueryString }) => {
   const [search, setSearch] = useState([]);
   let history = useHistory();
   const redirect = () => {
@@ -12,7 +12,9 @@ const Search = () => {
 
   const fetchQuery = () => {
     if (getQuery()) {
-      fetch(`http://hn.algolia.com/api/v1/search?query=${getQuery()}`)
+      fetch(
+        `http://hn.algolia.com/api/v1/search?query=${getQuery()}&hitsPerPage=50`
+      )
         .then((response) => response.json())
         .then((results) => {
           setSearch(results.hits);
@@ -21,7 +23,9 @@ const Search = () => {
         })
         .catch(console.error);
     } else {
-      fetch(`http://hn.algolia.com/api/v1/search?query=${queryString}`)
+      fetch(
+        `http://hn.algolia.com/api/v1/search?query=${queryString}&hitsPerPage=50`
+      )
         .then((response) => response.json())
         .then((results) => {
           setSearch(results.hits);
@@ -48,39 +52,49 @@ const Search = () => {
   return (
     <div>
       <form>
-        <center>
-          <div className="searchBox">
-            <input
-              type="text"
-              placeholder="Search"
-              onChange={(event) => {
-                setQueryString(event.target.value);
-              }}
-            />
-            <button
-              onClick={(event) => {
-                event.preventDefault();
-                addHistory(queryString);
-                addQuery(queryString);
-                fetchQuery()
-              }}
-            >
-              Enter
-            </button>
-          </div>
-        </center>
-        {search.map((result) => {
-          return (
-            <div>
-              <p>{result.title}</p>
-              <p>{result.author}</p>
-              <p>
-                <a href={result.url}>{result.url}</a>
-              </p>
-              <hr></hr>
-            </div>
-          );
-        })}
+        <div className="searchBox">
+          <input
+            className="searchBoxInput"
+            type="text"
+            placeholder="SEARCH"
+            onChange={(event) => {
+              setQueryString(event.target.value);
+            }}
+          />
+          <button
+            className="searchBoxButton"
+            onClick={(event) => {
+              event.preventDefault();
+              addHistory(queryString);
+              addQuery(queryString);
+              fetchQuery();
+            }}
+          >
+            SEARCH
+          </button>
+        </div>
+        <section>
+          {search.map((result, index) => {
+            return (
+              <>
+                {result.title && result.author && result.url ? (
+                  <div className="results">
+                    <p className="resultTitle" key={index}>
+                      <em>{result.title}</em> (
+                      <a href={result.url}>{result.url}</a>)
+                    </p>
+                    <p className="resultPoints">
+                      {result.points} points | author: {result.author} |
+                      created:{" "}
+                      {new Date(result.created_at).toLocaleDateString()}
+                    </p>
+                    <hr />
+                  </div>
+                ) : null}
+              </>
+            );
+          })}
+        </section>
       </form>
     </div>
   );

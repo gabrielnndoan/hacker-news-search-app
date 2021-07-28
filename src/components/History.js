@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { addQuery, getHistory, removeQuery } from "../auth";
+import { addQuery, getHistory, removeQuery } from "../functions";
+import "./History.css";
 
 const History = () => {
   const [history, setHistory] = useState([]);
@@ -10,29 +11,32 @@ const History = () => {
   }, []);
 
   return (
-    <div>
-      {!history
-        ? null
-        : history
+    <div className="historyPage">
+      <h1>HISTORY OF PAST SEARCHES</h1>
+      {!history ? (
+        <h2>No recorded activity.</h2>
+      ) : (
+        <ul>
+          {history
             .slice(0)
             .reverse()
             .map((result, index) => {
               return (
-                <ol index={index}>
-                  <ul>
-                    <Link
-                      to={`search?query=${result.history}`}
-                      onClick={() => {
-                        removeQuery();
-                        addQuery(result.history);
-                      }}
-                    >
-                      {result.history}
-                    </Link>
-                  </ul>
-                </ol>
+                <li className="historyList" key={index}>
+                  <Link
+                    to={`search?query=${result.history}`}
+                    onClick={() => {
+                      removeQuery();
+                      addQuery(result.history);
+                    }}
+                  >
+                    {result.history}
+                  </Link>
+                </li>
               );
             })}
+        </ul>
+      )}
     </div>
   );
 };

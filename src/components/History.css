@@ -1,0 +1,17 @@
+.historyPage {
+  text-align: center;
+}
+
+.historyList {
+  text-align: center;
+  font-size: 20px;
+  margin-left: -30px;
+  margin-top: 15px;
+  list-style-type: none;
+  font-style: italic;
+}
+
+.historyList a {
+  color: #9c807d;
+  font-weight: bold;
+}
