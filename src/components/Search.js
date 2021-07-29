@@ -12,9 +12,7 @@ const Search = ({ queryString, setQueryString }) => {
 
   const fetchQuery = () => {
     if (getQuery()) {
-      fetch(
-        `http://hn.algolia.com/api/v1/search?query=${getQuery()}&hitsPerPage=50`
-      )
+      fetch(`http://hn.algolia.com/api/v1/search?query=${getQuery()}&hitsPerPage=50`)
         .then((response) => response.json())
         .then((results) => {
           setSearch(results.hits);
@@ -23,9 +21,7 @@ const Search = ({ queryString, setQueryString }) => {
         })
         .catch(console.error);
     } else {
-      fetch(
-        `http://hn.algolia.com/api/v1/search?query=${queryString}&hitsPerPage=50`
-      )
+      fetch(`http://hn.algolia.com/api/v1/search?query=${queryString}&hitsPerPage=50`)
         .then((response) => response.json())
         .then((results) => {
           setSearch(results.hits);
@@ -80,13 +76,10 @@ const Search = ({ queryString, setQueryString }) => {
                 {result.title && result.author && result.url ? (
                   <div className="results">
                     <p className="resultTitle" key={index}>
-                      <em>{result.title}</em> (
-                      <a href={result.url}>{result.url}</a>)
+                      <em>{result.title}</em> (<a href={result.url}>{result.url}</a>)
                     </p>
                     <p className="resultPoints">
-                      {result.points} points | author: {result.author} |
-                      created:{" "}
-                      {new Date(result.created_at).toLocaleDateString()}
+                      {result.points} points | author: {result.author} | created: {new Date(result.created_at).toLocaleDateString()}
                     </p>
                     <hr />
                   </div>

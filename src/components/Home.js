@@ -21,7 +21,7 @@ const Home = ({ queryString, setQueryString }) => {
     <div>
       <h1 className="homeHeading">SEARCH HACKER NEWS</h1>
       <form>
-        <div className="searchBoxHome">
+        <section className="searchBoxHome">
           <input
             className="searchBoxInputHome"
             type="text"
@@ -41,7 +41,7 @@ const Home = ({ queryString, setQueryString }) => {
           >
             SEARCH
           </button>
-        </div>
+        </section>
       </form>
     </div>
   );
