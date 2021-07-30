@@ -8,13 +8,13 @@ const Home = ({ queryString, setQueryString }) => {
     history.push(`/search?query=${getQuery()}`);
   };
 
-  function addHistory(queryString) {
-    let history = [];
-    if (localStorage.getItem("history")) {
-      history = JSON.parse(localStorage.getItem("history"));
+  function addSearchHistory(queryString) {
+    let searchHistory = [];
+    if (localStorage.getItem("searchHistory")) {
+      searchHistory = JSON.parse(localStorage.getItem("searchHistory"));
     }
-    history.push({ history: queryString });
-    localStorage.setItem("history", JSON.stringify(history));
+    searchHistory.push({ searchHistory: queryString });
+    localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
   }
 
   return (
@@ -34,7 +34,7 @@ const Home = ({ queryString, setQueryString }) => {
             className="searchBoxButtonHome"
             onClick={(event) => {
               event.preventDefault();
-              addHistory(queryString);
+              addSearchHistory(queryString);
               addQuery(queryString);
               redirect();
             }}

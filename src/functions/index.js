@@ -1,10 +1,10 @@
-export function getHistory() {
-  const history = JSON.parse(localStorage.getItem("history"));
-  return history;
+export function getSearchHistory() {
+  const searchHistory = JSON.parse(localStorage.getItem("searchHistory"));
+  return searchHistory;
 }
 
-export function removeHistory() {
-  localStorage.removeItem("history");
+export function removeSearchHistory() {
+  localStorage.removeItem("searchHistory");
 }
 
 export function getQuery() {
